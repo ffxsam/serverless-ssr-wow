@@ -12,6 +12,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# sst build output
+.build
+.sst
+.sst.config.*.mjs
 
 # environment variables
 .env
