@@ -1,5 +1,5 @@
 <script setup lang="ts">
-console.log('Am I server-side?', import.meta.env.SSR);
+console.log(import.meta.env.API_URL);
 </script>
 
 <template>
