@@ -1,18 +1,8 @@
 ---
-import BreweryTable from '../components/BreweryTable.vue';
+import Layout from '../layouts/Layout.astro';
+import BreweryTable from '../components/BreweryTable.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<div class="container mx-auto px-4 py-8">
-			<BreweryTable client:load />
-		</div>
-	</body>
-</html>
+<Layout title="Breweries">
+  <BreweryTable />
+</Layout>
