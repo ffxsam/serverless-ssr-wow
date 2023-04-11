@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import type { Brewery } from '../types';
+
+export interface Props {
+  brewery: Brewery;
+}
+
+const { brewery } = Astro.props;
+---
+
+<Layout title={brewery.name}>
+  <h1 class="text-3xl">{brewery.name}</h1>
+  <p>
+    <a target="_blank" href={brewery.website_url}>
+      {brewery.website_url}
+    </a>
+  </p>
+  <p class="mt-4">
+    {brewery.address_1}
+  </p>
+  {brewery.address_2 ? <p class="mt-4">{brewery.address_2}</p> : null}
+  {brewery.address_3 ? <p class="mt-4">{brewery.address_3}</p> : null}
+  <p>{brewery.city}, {brewery.state} {brewery.postal_code}</p>
+  <p>{brewery.phone}</p>
+</Layout>

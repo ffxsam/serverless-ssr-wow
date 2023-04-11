@@ -2,6 +2,7 @@
 import axios from 'axios';
 import Layout from '../../layouts/Layout.astro';
 import type { Brewery } from '../../types';
+import BreweryDetails from '../../components/BreweryDetails.astro';
 
 export interface Props {
   id: string;
@@ -13,4 +14,6 @@ const response = await axios.get(import.meta.env.API_URL + `/breweries/${id}`);
 const brewery: Brewery = response.data;
 ---
 
-<Layout title={brewery.name}>Placeholder.</Layout>
+<Layout title={brewery.name}>
+  <BreweryDetails brewery={brewery} />
+</Layout>

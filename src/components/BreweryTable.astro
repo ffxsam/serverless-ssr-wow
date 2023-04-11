@@ -7,27 +7,43 @@ const response = await axios.get(import.meta.env.API_URL + '/breweries');
 const breweries: Brewery[] = response.data;
 ---
 
-<div>
-  <div class="mb-10">
+<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+  <!-- <div class="mb-10">
     <SearchBox />
-  </div>
-  <table class="min-w-full bg-white shadow-md rounded-lg">
-    <thead>
-      <tr class="text-gray-600 text-left bg-gray-200">
-        <th class="px-4 py-3">Name</th>
-        <th class="px-4 py-3">City</th>
-        <th class="px-4 py-3">State</th>
+  </div> -->
+  <table class="min-w-full divide-y divide-gray-300">
+    <thead class="bg-gray-50">
+      <tr class="text-gray-600 text-left">
+        <th
+          class="whitespace-nowrap px-6 py-3.5 text-left text-sm font-semibold text-gray-900"
+        >
+          Name
+        </th>
+        <th
+          class="whitespace-nowrap px-6 py-3.5 text-left text-sm font-semibold text-gray-900"
+        >
+          City
+        </th>
+        <th
+          class="whitespace-nowrap px-6 py-3.5 text-left text-sm font-semibold text-gray-900"
+        >
+          State
+        </th>
       </tr>
     </thead>
-    <tbody class="text-gray-700">
+    <tbody class="divide-y divide-gray-200 bg-white">
       {
         breweries.map((brewery) => (
           <tr class="border-b border-gray-200">
-            <td class="px-4 py-3">
+            <td class="whitespace-nowrap px-6 py-3.5 text-sm text-gray-500">
               <a href={`/brewery/${brewery.id}`}>{brewery.name}</a>
             </td>
-            <td class="px-4 py-3">{brewery.city}</td>
-            <td class="px-4 py-3">{brewery.state}</td>
+            <td class="whitespace-nowrap px-6 py-3.5 text-sm text-gray-500">
+              {brewery.city}
+            </td>
+            <td class="whitespace-nowrap px-6 py-3.5 text-sm text-gray-500">
+              {brewery.state}
+            </td>
           </tr>
         ))
       }
