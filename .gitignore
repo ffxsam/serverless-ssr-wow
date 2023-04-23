@@ -17,6 +17,9 @@ pnpm-debug.log*
 .sst
 .sst.config.*.mjs
 
+# sensitive env files
+.env.*.local
+
 # macOS-specific files
 .DS_Store
 

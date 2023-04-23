@@ -1,16 +1,17 @@
 ---
 import axios from 'axios';
 import type { Brewery } from '../types';
-import SearchBox from './SearchBox.vue';
+import BeerGPT from './BeerGPT.vue';
 
 const response = await axios.get(import.meta.env.API_URL + '/breweries');
 const breweries: Brewery[] = response.data;
 ---
 
-<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-  <!-- <div class="mb-10">
-    <SearchBox />
-  </div> -->
+<div class="mb-6">
+  <BeerGPT client:visible />
+</div>
+
+<div class="mt-6 overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
   <table class="min-w-full divide-y divide-gray-300">
     <thead class="bg-gray-50">
       <tr class="text-gray-600 text-left">
