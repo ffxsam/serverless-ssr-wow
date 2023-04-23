@@ -42,15 +42,7 @@ const userInput = ref('');
 const totalCost = ref(0);
 const tokenCount = ref(0);
 const thinking = ref(false);
-const messages = ref<ChatMessage[]>([
-  systemMessage,
-  {
-    role: 'assistant',
-    content: newlineToBr(
-      "Hi! I'm BeerGPT. What can I help you with?\n\n1. Dance.\n2. Dance."
-    ),
-  },
-]);
+const messages = ref<ChatMessage[]>([systemMessage]);
 
 const onlyChatMessages = computed(() =>
   messages.value.filter((message) => message.role !== 'system')
