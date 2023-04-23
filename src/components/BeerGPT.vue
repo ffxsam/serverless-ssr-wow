@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import axios from 'axios';
 import BButton from './BButton.vue';
 import TypingIndicator from './TypingIndicator.vue';
+import { newlineToBr } from '../utils/newline-to-br';
 
 interface ChatMessage {
   /** The role of the author of this message. */
@@ -41,7 +42,15 @@ const userInput = ref('');
 const totalCost = ref(0);
 const tokenCount = ref(0);
 const thinking = ref(false);
-const messages = ref<ChatMessage[]>([systemMessage]);
+const messages = ref<ChatMessage[]>([
+  systemMessage,
+  {
+    role: 'assistant',
+    content: newlineToBr(
+      "Hi! I'm BeerGPT. What can I help you with?\n\n1. Dance.\n2. Dance."
+    ),
+  },
+]);
 
 const onlyChatMessages = computed(() =>
   messages.value.filter((message) => message.role !== 'system')
@@ -126,7 +135,7 @@ async function sendMessage() {
                 </div>
                 <div class="text-gray-700">
                   <TypingIndicator v-if="isThinking(message)" />
-                  <template v-else>{{ message.content }}</template>
+                  <div v-else v-html="message.content" />
                 </div>
               </div>
             </div>
