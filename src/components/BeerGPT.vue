@@ -91,7 +91,7 @@ async function sendMessage() {
   userInput.value = '';
 
   const response = await axios.post<GPTResponse>(
-    'https://3yhnp46ipi.execute-api.us-east-1.amazonaws.com/beer-gpt',
+    import.meta.env.PUBLIC_BEER_GPT_API_URL + '/beer-gpt',
     {
       messages: messages.value,
     }
