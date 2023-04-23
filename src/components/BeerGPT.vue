@@ -136,6 +136,7 @@ async function sendMessage() {
             v-model="userInput"
             cols="60"
             rows="4"
+            placeholder="Ask BeerGPT anything related to beer!"
             @keydown.meta.enter="sendMessage"
             @keydown.ctrl.enter="sendMessage"
           >
