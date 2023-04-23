@@ -52,6 +52,12 @@ function toPrice(cost: number) {
   return `$${cost.toFixed(3)}`;
 }
 
+function endConvo() {
+  messages.value = [systemMessage];
+  totalCost.value = 0;
+  tokenCount.value = 0;
+}
+
 function isThinking(message: ChatMessage) {
   return (
     message.role === 'assistant' && message.content === '...' && thinking.value
@@ -63,7 +69,7 @@ function toggleChat() {
 
   // Clear BeerGPT's memory when the chat is closed
   if (!chatVisible.value) {
-    messages.value = [systemMessage];
+    endConvo();
   }
 }
 
