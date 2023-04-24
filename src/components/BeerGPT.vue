@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import axios from 'axios';
 import BButton from './BButton.vue';
 import TypingIndicator from './TypingIndicator.vue';
-import { newlineToBr } from '../utils/newline-to-br';
+import { newlinesToHtmlBreaks } from '../utils/newlines-to-html-breaks';
 
 interface ChatMessage {
   /** The role of the author of this message. */
@@ -97,7 +97,9 @@ async function sendMessage() {
     }
   );
 
-  messages.value.at(-1)!.content = response.data.choices[0].message.content;
+  messages.value.at(-1)!.content = newlinesToHtmlBreaks(
+    response.data.choices[0].message.content
+  );
   totalCost.value +=
     (response.data.usage.prompt_tokens / 1000) * 0.03 +
     (response.data.usage.completion_tokens / 1000) * 0.06;
