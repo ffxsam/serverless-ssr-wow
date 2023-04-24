@@ -15,12 +15,13 @@ export default {
           API_URL: process.env.API_URL!,
         },
       });
-      const beerGptFunc = new Function(stack, 'howdy', {
+      const beerGptFunc = new Function(stack, 'BeerGPT', {
         handler: 'src/lambda/beer-gpt.main',
         memorySize: 1024,
         timeout: 60,
         environment: {
           OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
+          OPENAI_MODEL: process.env.OPENAI_MODEL!,
         },
         url: true,
       });

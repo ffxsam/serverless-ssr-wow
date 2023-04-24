@@ -9,7 +9,7 @@ export const main = async (event: any) => {
   try {
     const messages = JSON.parse(event.body).messages;
     const completion = await openai.createChatCompletion({
-      model: 'gpt-4',
+      model: process.env.OPENAI_MODEL!,
       messages,
       max_tokens: 500,
     });
@@ -26,7 +26,11 @@ export const main = async (event: any) => {
       console.error(e);
     }
 
-    console.error('event body:', event.body);
+    if (event.body) {
+      console.error('event body:', event.body);
+    } else {
+      console.error('event:', event);
+    }
 
     throw e;
   }
