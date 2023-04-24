@@ -6,9 +6,8 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export const main = async (event: any) => {
-  const messages = JSON.parse(event.body).messages;
-
   try {
+    const messages = JSON.parse(event.body).messages;
     const completion = await openai.createChatCompletion({
       model: 'gpt-4',
       messages,
@@ -26,6 +25,8 @@ export const main = async (event: any) => {
     } else {
       console.error(e);
     }
+
+    console.error('event body:', event.body);
 
     throw e;
   }
