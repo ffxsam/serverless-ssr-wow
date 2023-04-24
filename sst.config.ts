@@ -1,5 +1,5 @@
 import type { SSTConfig } from 'sst';
-import { AstroSite, Api } from 'sst/constructs';
+import { AstroSite, Function } from 'sst/constructs';
 
 export default {
   config(_input) {
@@ -15,24 +15,18 @@ export default {
           API_URL: process.env.API_URL!,
         },
       });
-      const api = new Api(stack, 'gpt', {
-        routes: {
-          'POST /beer-gpt': {
-            function: {
-              handler: 'src/lambda/beer-gpt.main',
-              memorySize: 1024,
-              timeout: 30,
-              environment: {
-                OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
-              }
-            }
-          },
+      const beerGptFunc = new Function(stack, 'howdy', {
+        handler: 'src/lambda/beer-gpt.main',
+        memorySize: 1024,
+        timeout: 60,
+        environment: {
+          OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
         },
+        url: true,
       });
 
       stack.addOutputs({
-        apiUrl: api.url,
-        url: site.url,
+        beerGptApiUrl: beerGptFunc.url,
       });
     });
   },
