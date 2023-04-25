@@ -16,6 +16,7 @@ pnpm-debug.log*
 .build
 .sst
 .sst.config.*.mjs
+!.sst/stage
 
 # sensitive env files
 .env.*.local
