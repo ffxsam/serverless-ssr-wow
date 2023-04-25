@@ -14,7 +14,7 @@ pnpm-debug.log*
 
 # sst build output
 .build
-.sst
+.sst/*
 .sst.config.*.mjs
 !.sst/stage
 
