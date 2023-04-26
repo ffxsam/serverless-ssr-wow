@@ -141,13 +141,15 @@ async function sendMessage() {
       <template v-if="chatVisible">
         <div>
           <textarea
-            class="rounded-lg p-2 outline-none"
+            class="rounded-lg p-2 outline-none w-full"
             v-model="userInput"
             cols="60"
-            rows="4"
+            rows="2"
             placeholder="Ask BeerGPT anything related to beer!"
+            data-gramm="false"
             @keydown.meta.enter="sendMessage"
             @keydown.ctrl.enter="sendMessage"
+            @keydown.prevent.enter="sendMessage"
           >
           </textarea>
         </div>
