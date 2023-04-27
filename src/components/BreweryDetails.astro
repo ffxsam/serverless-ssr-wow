@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import type { Brewery } from '../types';
+import BreweryInsights from './BreweryInsights.vue';
 
 export interface Props {
   brewery: Brewery;
@@ -23,4 +24,8 @@ const { brewery } = Astro.props;
   {brewery.address_3 ? <p class="mt-4">{brewery.address_3}</p> : null}
   <p>{brewery.city}, {brewery.state} {brewery.postal_code}</p>
   <p>{brewery.phone}</p>
+
+  <div class="mt-6">
+    <BreweryInsights client:only="vue" brewery={brewery} />
+  </div>
 </Layout>
