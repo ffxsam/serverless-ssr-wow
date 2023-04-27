@@ -1,60 +1,32 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import axios from 'axios';
+import { ref } from 'vue';
 import BButton from './BButton.vue';
 import TypingIndicator from './TypingIndicator.vue';
-import { newlinesToHtmlBreaks } from '../utils/newlines-to-html-breaks';
+import { useChatGpt, type ChatMessage } from '../composables/chat-gpt';
+import { systemMessage } from '../constants';
 
-interface ChatMessage {
-  /** The role of the author of this message. */
-  role: 'system' | 'user' | 'assistant';
-  /** The contents of the message. */
-  content: string;
-  /**
-   * The name of the author of this message. May contain a-z, A-Z, 0-9, and
-   * underscores, with a maximum length of 64 characters.
-   */
-  name?: string;
-}
+const {
+  addUserMessage,
+  convoStarted,
+  onlyChatMessages,
+  resetConvo,
+  sendMessages,
+} = useChatGpt({
+  system: systemMessage,
+});
 
-interface GPTResponse {
-  usage: {
-    prompt_tokens: number;
-    completion_tokens: number;
-    total_tokens: number;
-  };
-  choices: {
-    message: ChatMessage;
-  }[];
-}
-
-const systemMessage: ChatMessage = {
-  role: 'system',
-  content: `
-    You are BeerGPT, a helpful assistant who specializes in beer and the science
-    behind brewing beer. If the user asks about topics other than beer, politely
-    steer them back on the topic of beer. Limit your responses to no more than
-    four sentences. Speak in the voice of Jimmy Fallon.
-  `,
-};
 const chatVisible = ref(false);
 const userInput = ref('');
 const totalCost = ref(0);
 const tokenCount = ref(0);
 const thinking = ref(false);
-const messages = ref<ChatMessage[]>([systemMessage]);
-
-const onlyChatMessages = computed(() =>
-  messages.value.filter((message) => message.role !== 'system')
-);
-const convoStarted = computed(() => messages.value.length > 1);
 
 function toPrice(cost: number) {
   return `$${cost.toFixed(3)}`;
 }
 
 function endConvo() {
-  messages.value = [systemMessage];
+  resetConvo();
   totalCost.value = 0;
   tokenCount.value = 0;
 }
@@ -75,35 +47,17 @@ function toggleChat() {
 }
 
 async function sendMessage() {
-  messages.value.push({
-    role: 'user',
-    content: userInput.value,
-  });
-
-  window.setTimeout(() => {
-    messages.value.push({
-      role: 'assistant',
-      content: '...',
-    });
-  }, 1500);
+  addUserMessage(userInput.value);
 
   thinking.value = true;
   userInput.value = '';
 
-  const response = await axios.post<GPTResponse>(
-    import.meta.env.PUBLIC_BEER_GPT_API_URL + '/beer-gpt',
-    {
-      messages: messages.value,
-    }
-  );
+  const response = await sendMessages();
 
-  messages.value.at(-1)!.content = newlinesToHtmlBreaks(
-    response.data.choices[0].message.content
-  );
   totalCost.value +=
-    (response.data.usage.prompt_tokens / 1000) * 0.03 +
-    (response.data.usage.completion_tokens / 1000) * 0.06;
-  tokenCount.value += response.data.usage.total_tokens;
+    (response.usage.prompt_tokens / 1000) * 0.03 +
+    (response.usage.completion_tokens / 1000) * 0.06;
+  tokenCount.value += response.usage.total_tokens;
 
   thinking.value = false;
 }
@@ -147,8 +101,6 @@ async function sendMessage() {
             rows="2"
             placeholder="Ask BeerGPT anything related to beer!"
             data-gramm="false"
-            @keydown.meta.enter="sendMessage"
-            @keydown.ctrl.enter="sendMessage"
             @keydown.prevent.enter="sendMessage"
           >
           </textarea>
